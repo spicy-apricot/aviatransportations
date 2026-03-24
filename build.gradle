@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.0'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.springframework.boot' version '3.2.4'
+    id 'io.spring.dependency-management' version '1.1.5'
 }
 
 group = 'obuhov'
@@ -25,12 +25,38 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework:spring-jdbc:6.1.4'
+
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mockito:mockito-core:5.8.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.8.0'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+    }
+}
+
+// Явное указание главного класса
+springBoot {
+    mainClass = 'obuhov.airline.AirlineApplication'
+}
+
+// Задачи для работы с БД
+task initDatabase(type: Exec) {
+    commandLine 'psql', '-U', 'postgres', '-d', 'airline_db', '-f', 'src/main/resources/init.sql'
+}
+
+task insertData(type: Exec) {
+    commandLine 'psql', '-U', 'postgres', '-d', 'airline_db', '-f', 'src/main/resources/first_insert.sql'
+}
+
+task cleanDatabase(type: Exec) {
+    commandLine 'psql', '-U', 'postgres', '-d', 'airline_db', '-c', 'DROP SCHEMA public CASCADE; CREATE SCHEMA public;'
 }

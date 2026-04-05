@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="obuhov.airline.service.TicketServiceTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-04-05T15:24:26" hostname="GAGAGA" time="0.032">
+  <properties/>
+  <testcase name="Удаление существующего билета по ID" classname="obuhov.airline.service.TicketServiceTest" time="0.002"/>
+  <testcase name="Получение оплаченных билетов" classname="obuhov.airline.service.TicketServiceTest" time="0.002"/>
+  <testcase name="Бронирование занятого места - исключение" classname="obuhov.airline.service.TicketServiceTest" time="0.002"/>
+  <testcase name="Проверка доступности места для несуществующего рейса" classname="obuhov.airline.service.TicketServiceTest" time="0.006"/>
+  <testcase name="Получение билетов по клиенту" classname="obuhov.airline.service.TicketServiceTest" time="0.003"/>
+  <testcase name="Оплата билета" classname="obuhov.airline.service.TicketServiceTest" time="0.003"/>
+  <testcase name="Создание билета без рейса - исключение" classname="obuhov.airline.service.TicketServiceTest" time="0.002"/>
+  <testcase name="Удаление билета" classname="obuhov.airline.service.TicketServiceTest" time="0.003"/>
+  <testcase name="Бронирование билета" classname="obuhov.airline.service.TicketServiceTest" time="0.002"/>
+  <testcase name="Получение всех билетов" classname="obuhov.airline.service.TicketServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

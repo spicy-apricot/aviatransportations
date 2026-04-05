@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="obuhov.airline.service.ClientServiceTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-04-05T15:24:26" hostname="GAGAGA" time="0.035">
+  <properties/>
+  <testcase name="Клиент не найден по ID" classname="obuhov.airline.service.ClientServiceTest" time="0.003"/>
+  <testcase name="Получение клиента по ID" classname="obuhov.airline.service.ClientServiceTest" time="0.001"/>
+  <testcase name="Удаление несуществующего клиента - исключение" classname="obuhov.airline.service.ClientServiceTest" time="0.004"/>
+  <testcase name="Получение всех клиентов" classname="obuhov.airline.service.ClientServiceTest" time="0.002"/>
+  <testcase name="Обновление клиента" classname="obuhov.airline.service.ClientServiceTest" time="0.006"/>
+  <testcase name="Поиск клиентов по имени и телефону" classname="obuhov.airline.service.ClientServiceTest" time="0.003"/>
+  <testcase name="Удаление клиента" classname="obuhov.airline.service.ClientServiceTest" time="0.006"/>
+  <testcase name="Создание клиента без имени - исключение" classname="obuhov.airline.service.ClientServiceTest" time="0.003"/>
+  <testcase name="Создание клиента" classname="obuhov.airline.service.ClientServiceTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

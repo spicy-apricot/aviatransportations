@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TicketService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">aviatransportations</a> &gt; <a href="index.source.html" class="el_package">obuhov.airline.service</a> &gt; <span class="el_source">TicketService.java</span></div><h1>TicketService.java</h1><pre class="source lang-java linenums">package obuhov.airline.service;
+
+import obuhov.airline.entity.Ticket;
+import obuhov.airline.entity.Client;
+import obuhov.airline.entity.Flight;
+import obuhov.airline.entity.BonusCard;
+import obuhov.airline.repository.TicketRepository;
+import obuhov.airline.repository.ClientRepository;
+import obuhov.airline.repository.FlightRepository;
+import obuhov.airline.repository.BonusCardRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+@Transactional
+<span class="fc" id="L21">public class TicketService {</span>
+
+    @Autowired
+    private TicketRepository ticketRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
+    private FlightRepository flightRepository;
+
+    @Autowired
+    private BonusCardRepository bonusCardRepository;
+
+    public List&lt;Ticket&gt; getAllTickets() {
+<span class="fc" id="L36">        return ticketRepository.findAll();</span>
+    }
+
+    public Optional&lt;Ticket&gt; getTicketById(Integer id) {
+<span class="fc" id="L40">        return ticketRepository.findById(id);</span>
+    }
+
+    public List&lt;Ticket&gt; getTicketsByClientId(Integer clientId) {
+<span class="fc" id="L44">        return ticketRepository.findByClientId(clientId);</span>
+    }
+
+    public List&lt;Ticket&gt; getTicketsByFlightId(Integer flightId) {
+<span class="fc" id="L48">        return ticketRepository.findByFlightId(flightId);</span>
+    }
+
+    public List&lt;Ticket&gt; getPaidTickets() {
+<span class="fc" id="L52">        return ticketRepository.findByIsPaid(1);</span>
+    }
+
+    public List&lt;Ticket&gt; getReservedTickets() {
+<span class="fc" id="L56">        return ticketRepository.findByIsPaid(0);</span>
+    }
+
+    public Ticket createTicket(Ticket ticket) {
+<span class="fc" id="L60">        validateTicket(ticket);</span>
+
+        // Check if seat is available
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (ticketRepository.existsByFlightIdAndSeat(ticket.getFlight().getFlightID(), ticket.getSeat())) {</span>
+<span class="fc" id="L64">            throw new IllegalArgumentException(&quot;Seat &quot; + ticket.getSeat() + &quot; is already booked&quot;);</span>
+        }
+
+<span class="fc" id="L67">        return ticketRepository.save(ticket);</span>
+    }
+
+    public Ticket updateTicket(Integer id, Ticket ticketDetails) {
+<span class="fc" id="L71">        Ticket ticket = ticketRepository.findById(id)</span>
+<span class="fc" id="L72">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ticket not found with id: &quot; + id));</span>
+
+<span class="fc" id="L74">        ticket.setSeat(ticketDetails.getSeat());</span>
+<span class="fc" id="L75">        ticket.setIsPaid(ticketDetails.getIsPaid());</span>
+
+<span class="fc" id="L77">        return ticketRepository.save(ticket);</span>
+    }
+
+    public void deleteTicket(Integer id) {
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (!ticketRepository.existsById(id)) {</span>
+<span class="fc" id="L82">            throw new RuntimeException(&quot;Ticket not found with id: &quot; + id);</span>
+        }
+<span class="fc" id="L84">        ticketRepository.deleteById(id);</span>
+<span class="fc" id="L85">    }</span>
+
+    public Ticket bookTicket(Integer flightId, Integer clientId, String seat) {
+<span class="fc" id="L88">        Flight flight = flightRepository.findById(flightId)</span>
+<span class="fc" id="L89">                .orElseThrow(() -&gt; new RuntimeException(&quot;Flight not found&quot;));</span>
+
+<span class="fc" id="L91">        Client client = clientRepository.findById(clientId)</span>
+<span class="fc" id="L92">                .orElseThrow(() -&gt; new RuntimeException(&quot;Client not found&quot;));</span>
+
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if (!isSeatAvailable(flightId, seat)) {</span>
+<span class="fc" id="L95">            throw new IllegalArgumentException(&quot;Seat &quot; + seat + &quot; is not available&quot;);</span>
+        }
+
+<span class="fc" id="L98">        Ticket ticket = new Ticket();</span>
+<span class="fc" id="L99">        ticket.setFlight(flight);</span>
+<span class="fc" id="L100">        ticket.setClient(client);</span>
+<span class="fc" id="L101">        ticket.setSeat(seat);</span>
+<span class="fc" id="L102">        ticket.setIsPaid(0); // Reserved</span>
+
+<span class="fc" id="L104">        return ticketRepository.save(ticket);</span>
+    }
+
+    public Ticket payTicket(Integer ticketId) {
+<span class="fc" id="L108">        Ticket ticket = ticketRepository.findById(ticketId)</span>
+<span class="fc" id="L109">                .orElseThrow(() -&gt; new RuntimeException(&quot;Ticket not found&quot;));</span>
+
+<span class="fc" id="L111">        ticket.setIsPaid(1);</span>
+<span class="fc" id="L112">        return ticketRepository.save(ticket);</span>
+    }
+
+    public Integer calculateTicketPrice(Integer flightId, Integer clientId) {
+<span class="fc" id="L116">        Flight flight = flightRepository.findById(flightId)</span>
+<span class="fc" id="L117">                .orElseThrow(() -&gt; new RuntimeException(&quot;Flight not found&quot;));</span>
+
+<span class="fc" id="L119">        Integer basePrice = flight.getCost();</span>
+
+        // Apply bonus discount if available
+<span class="fc" id="L122">        Optional&lt;BonusCard&gt; bonusCard = bonusCardRepository.findByClientIdAndAirlineId(</span>
+<span class="fc" id="L123">                clientId, flight.getAirline().getAirlineID());</span>
+
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        if (bonusCard.isPresent()) {</span>
+<span class="fc" id="L126">            Integer discount = bonusCard.get().getDiscount();</span>
+<span class="fc" id="L127">            basePrice = basePrice - (basePrice * discount / 100);</span>
+        }
+
+<span class="fc" id="L130">        return basePrice;</span>
+    }
+
+    boolean isSeatAvailable(Integer flightId, String seat) {
+<span class="fc" id="L134">        Flight flight = flightRepository.findById(flightId)</span>
+<span class="fc" id="L135">                .orElseThrow(() -&gt; new RuntimeException(&quot;Flight not found&quot;));</span>
+
+<span class="pc bpc" id="L137" title="1 of 4 branches missed.">        if (flight.getAvailableSeats() == null || flight.getAvailableSeats().isEmpty()) {</span>
+<span class="fc" id="L138">            return false;</span>
+        }
+
+<span class="fc" id="L141">        List&lt;String&gt; availableSeats = Arrays.stream(flight.getAvailableSeats().split(&quot;,&quot;))</span>
+<span class="fc" id="L142">                .map(String::trim)</span>
+<span class="fc" id="L143">                .collect(Collectors.toList());</span>
+
+<span class="pc bpc" id="L145" title="1 of 4 branches missed.">        return availableSeats.contains(seat) &amp;&amp; !ticketRepository.existsByFlightIdAndSeat(flightId, seat);</span>
+    }
+
+    private void validateTicket(Ticket ticket) {
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        if (ticket.getFlight() == null) {</span>
+<span class="fc" id="L150">            throw new IllegalArgumentException(&quot;Flight is required&quot;);</span>
+        }
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        if (ticket.getClient() == null) {</span>
+<span class="fc" id="L153">            throw new IllegalArgumentException(&quot;Client is required&quot;);</span>
+        }
+<span class="pc bpc" id="L155" title="1 of 4 branches missed.">        if (ticket.getSeat() == null || ticket.getSeat().isEmpty()) {</span>
+<span class="fc" id="L156">            throw new IllegalArgumentException(&quot;Seat is required&quot;);</span>
+        }
+<span class="pc bpc" id="L158" title="2 of 6 branches missed.">        if (ticket.getIsPaid() == null || (ticket.getIsPaid() != 0 &amp;&amp; ticket.getIsPaid() != 1)) {</span>
+<span class="fc" id="L159">            throw new IllegalArgumentException(&quot;Is_paid must be 0 or 1&quot;);</span>
+        }
+<span class="fc" id="L161">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

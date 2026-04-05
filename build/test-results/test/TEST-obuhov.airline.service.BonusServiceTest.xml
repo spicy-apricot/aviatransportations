@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="obuhov.airline.service.BonusServiceTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-04-05T15:24:25" hostname="GAGAGA" time="0.051">
+  <properties/>
+  <testcase name="Получение расстояния когда записей нет" classname="obuhov.airline.service.BonusServiceTest" time="0.004"/>
+  <testcase name="Удаление существующей бонусной карты по ID" classname="obuhov.airline.service.BonusServiceTest" time="0.015"/>
+  <testcase name="Получение бонусных карт по клиенту" classname="obuhov.airline.service.BonusServiceTest" time="0.005"/>
+  <testcase name="Получение бонусной карты по клиенту и авиакомпании" classname="obuhov.airline.service.BonusServiceTest" time="0.003"/>
+  <testcase name="Получение всех бонусных карт" classname="obuhov.airline.service.BonusServiceTest" time="0.004"/>
+  <testcase name="Создание бонусной карты с некорректной скидкой - исключение" classname="obuhov.airline.service.BonusServiceTest" time="0.003"/>
+  <testcase name="Получение общего расстояния клиента" classname="obuhov.airline.service.BonusServiceTest" time="0.003"/>
+  <testcase name="Создание бонусной карты" classname="obuhov.airline.service.BonusServiceTest" time="0.004"/>
+  <testcase name="Добавление записи о налете с отрицательным расстоянием - исключение" classname="obuhov.airline.service.BonusServiceTest" time="0.002"/>
+  <testcase name="Добавление записи о налете" classname="obuhov.airline.service.BonusServiceTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="obuhov.airline.service.TicketServiceAdditionalTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-04-05T15:24:26" hostname="GAGAGA" time="0.031">
+  <properties/>
+  <testcase name="calculateTicketPrice_withAndWithoutDiscount()" classname="obuhov.airline.service.TicketServiceAdditionalTest" time="0.004"/>
+  <testcase name="createTicket_validationBranches()" classname="obuhov.airline.service.TicketServiceAdditionalTest" time="0.003"/>
+  <testcase name="deleteTicket_notFound()" classname="obuhov.airline.service.TicketServiceAdditionalTest" time="0.002"/>
+  <testcase name="payTicket_notFound()" classname="obuhov.airline.service.TicketServiceAdditionalTest" time="0.003"/>
+  <testcase name="bookTicket_notFoundAndUnavailableBranches()" classname="obuhov.airline.service.TicketServiceAdditionalTest" time="0.005"/>
+  <testcase name="updateTicket_successAndNotFound()" classname="obuhov.airline.service.TicketServiceAdditionalTest" time="0.003"/>
+  <testcase name="simpleDelegatingMethods_areCovered()" classname="obuhov.airline.service.TicketServiceAdditionalTest" time="0.002"/>
+  <testcase name="createTicket_successAndDuplicateSeatBranch()" classname="obuhov.airline.service.TicketServiceAdditionalTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -130,7 +130,7 @@ public class TicketService {
         return basePrice;
     }
 
-    private boolean isSeatAvailable(Integer flightId, String seat) {
+    boolean isSeatAvailable(Integer flightId, String seat) {
         Flight flight = flightRepository.findById(flightId)
                 .orElseThrow(() -> new RuntimeException("Flight not found"));
 

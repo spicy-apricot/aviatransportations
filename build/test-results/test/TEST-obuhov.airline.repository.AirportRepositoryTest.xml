@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="obuhov.airline.repository.AirportRepositoryTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-04-05T15:24:24" hostname="GAGAGA" time="0.04">
+  <properties/>
+  <testcase name="findByCity_returnsAllAirportsInCity()" classname="obuhov.airline.repository.AirportRepositoryTest" time="0.018"/>
+  <testcase name="findByCityOrNameContaining_worksForCityAndName()" classname="obuhov.airline.repository.AirportRepositoryTest" time="0.021"/>
+  <system-out><![CDATA[2026-04-05T18:24:24.706+03:00  INFO 6504 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [obuhov.airline.repository.AirportRepositoryTest]: AirportRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-04-05T18:24:24.716+03:00  INFO 6504 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration obuhov.airline.AirlineApplication for test class obuhov.airline.repository.AirportRepositoryTest
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0 where a1_0.city=?
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0 where a1_0.city=? or a1_0.name like ? escape ''
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0 where a1_0.city=? or a1_0.name like ? escape ''
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

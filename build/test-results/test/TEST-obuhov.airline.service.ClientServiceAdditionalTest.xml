@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="obuhov.airline.service.ClientServiceAdditionalTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-04-05T15:24:25" hostname="GAGAGA" time="0.162">
+  <properties/>
+  <testcase name="updateClient_throwsForInvalidPhone()" classname="obuhov.airline.service.ClientServiceAdditionalTest" time="0.144"/>
+  <testcase name="updateClient_throwsWhenNotFound()" classname="obuhov.airline.service.ClientServiceAdditionalTest" time="0.004"/>
+  <testcase name="getClientTotalDistance_returnsZeroWhenRepositoryReturnsNull()" classname="obuhov.airline.service.ClientServiceAdditionalTest" time="0.003"/>
+  <testcase name="searchClients_normalizesNulls()" classname="obuhov.airline.service.ClientServiceAdditionalTest" time="0.003"/>
+  <testcase name="gettersByForeignKeys_coverRepositoryDelegation()" classname="obuhov.airline.service.ClientServiceAdditionalTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

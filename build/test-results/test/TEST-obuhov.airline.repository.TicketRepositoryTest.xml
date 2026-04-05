@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="obuhov.airline.repository.TicketRepositoryTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-04-05T15:24:25" hostname="GAGAGA" time="0.201">
+  <properties/>
+  <testcase name="Поиск билетов по рейсу" classname="obuhov.airline.repository.TicketRepositoryTest" time="0.039"/>
+  <testcase name="Поиск оплаченных билетов" classname="obuhov.airline.repository.TicketRepositoryTest" time="0.032"/>
+  <testcase name="Создание билета" classname="obuhov.airline.repository.TicketRepositoryTest" time="0.027"/>
+  <testcase name="Поиск забронированных билетов" classname="obuhov.airline.repository.TicketRepositoryTest" time="0.033"/>
+  <testcase name="Поиск билетов по клиенту" classname="obuhov.airline.repository.TicketRepositoryTest" time="0.035"/>
+  <testcase name="Проверка существования билета по рейсу и месту" classname="obuhov.airline.repository.TicketRepositoryTest" time="0.032"/>
+  <system-out><![CDATA[2026-04-05T18:24:25.144+03:00  INFO 6504 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [obuhov.airline.repository.TicketRepositoryTest]: TicketRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-04-05T18:24:25.152+03:00  INFO 6504 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration obuhov.airline.AirlineApplication for test class obuhov.airline.repository.TicketRepositoryTest
+Hibernate: insert into client (address,email,name,phone_number) values (?,?,?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airline (name) values (?)
+Hibernate: insert into flight (airlineid,arrival_airport,arrival_date,arrival_time,available_seats,cost,departure_airport,departure_date,departure_time) values (?,?,?,?,?,?,?,?,?)
+Hibernate: insert into ticket (clientid,flightid,is_paid,seat) values (?,?,?,?)
+Hibernate: select t1_0.ticketid,t1_0.clientid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.ticketid,t1_0.clientid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select c1_0.clientid,c1_0.address,c1_0.email,c1_0.name,c1_0.phone_number from client c1_0
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0
+Hibernate: select a1_0.airlineid,a1_0.name from airline a1_0
+Hibernate: insert into client (address,email,name,phone_number) values (?,?,?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airline (name) values (?)
+Hibernate: insert into flight (airlineid,arrival_airport,arrival_date,arrival_time,available_seats,cost,departure_airport,departure_date,departure_time) values (?,?,?,?,?,?,?,?,?)
+Hibernate: insert into ticket (clientid,flightid,is_paid,seat) values (?,?,?,?)
+Hibernate: select t1_0.ticketid,t1_0.clientid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.is_paid=?
+Hibernate: select t1_0.ticketid,t1_0.clientid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select c1_0.clientid,c1_0.address,c1_0.email,c1_0.name,c1_0.phone_number from client c1_0
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0
+Hibernate: select a1_0.airlineid,a1_0.name from airline a1_0
+Hibernate: insert into client (address,email,name,phone_number) values (?,?,?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airline (name) values (?)
+Hibernate: insert into flight (airlineid,arrival_airport,arrival_date,arrival_time,available_seats,cost,departure_airport,departure_date,departure_time) values (?,?,?,?,?,?,?,?,?)
+Hibernate: insert into ticket (clientid,flightid,is_paid,seat) values (?,?,?,?)
+Hibernate: select t1_0.ticketid,t1_0.clientid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select c1_0.clientid,c1_0.address,c1_0.email,c1_0.name,c1_0.phone_number from client c1_0
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0
+Hibernate: select a1_0.airlineid,a1_0.name from airline a1_0
+Hibernate: insert into client (address,email,name,phone_number) values (?,?,?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airline (name) values (?)
+Hibernate: insert into flight (airlineid,arrival_airport,arrival_date,arrival_time,available_seats,cost,departure_airport,departure_date,departure_time) values (?,?,?,?,?,?,?,?,?)
+Hibernate: insert into ticket (clientid,flightid,is_paid,seat) values (?,?,?,?)
+Hibernate: insert into ticket (clientid,flightid,is_paid,seat) values (?,?,?,?)
+Hibernate: select t1_0.ticketid,t1_0.clientid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=? and t1_0.is_paid=0
+Hibernate: select t1_0.ticketid,t1_0.clientid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select c1_0.clientid,c1_0.address,c1_0.email,c1_0.name,c1_0.phone_number from client c1_0
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0
+Hibernate: select a1_0.airlineid,a1_0.name from airline a1_0
+Hibernate: insert into client (address,email,name,phone_number) values (?,?,?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airline (name) values (?)
+Hibernate: insert into flight (airlineid,arrival_airport,arrival_date,arrival_time,available_seats,cost,departure_airport,departure_date,departure_time) values (?,?,?,?,?,?,?,?,?)
+Hibernate: insert into ticket (clientid,flightid,is_paid,seat) values (?,?,?,?)
+Hibernate: select t1_0.ticketid,t1_0.clientid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select t1_0.ticketid,t1_0.clientid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select c1_0.clientid,c1_0.address,c1_0.email,c1_0.name,c1_0.phone_number from client c1_0
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0
+Hibernate: select a1_0.airlineid,a1_0.name from airline a1_0
+Hibernate: insert into client (address,email,name,phone_number) values (?,?,?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airline (name) values (?)
+Hibernate: insert into flight (airlineid,arrival_airport,arrival_date,arrival_time,available_seats,cost,departure_airport,departure_date,departure_time) values (?,?,?,?,?,?,?,?,?)
+Hibernate: insert into ticket (clientid,flightid,is_paid,seat) values (?,?,?,?)
+Hibernate: select case when count(t1_0.ticketid)>0 then true else false end from ticket t1_0 where t1_0.flightid=? and t1_0.seat=?
+Hibernate: select case when count(t1_0.ticketid)>0 then true else false end from ticket t1_0 where t1_0.flightid=? and t1_0.seat=?
+Hibernate: select t1_0.ticketid,t1_0.clientid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select c1_0.clientid,c1_0.address,c1_0.email,c1_0.name,c1_0.phone_number from client c1_0
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select bc1_0.clientid,bc1_0.cardid,bc1_0.airlineid,bc1_0.discount from bonus_card bc1_0 where bc1_0.clientid=?
+Hibernate: select t1_0.clientid,t1_0.ticketid,t1_0.flightid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.clientid=?
+Hibernate: select tr1_0.clientid,tr1_0.recordid,tr1_0.airlineid,tr1_0.distance from traveled tr1_0 where tr1_0.clientid=?
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0
+Hibernate: select a1_0.airlineid,a1_0.name from airline a1_0
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

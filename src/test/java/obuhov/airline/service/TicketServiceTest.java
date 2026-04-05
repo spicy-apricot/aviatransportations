@@ -174,4 +174,28 @@ public class TicketServiceTest {
         assertDoesNotThrow(() -> ticketService.deleteTicket(1));
         verify(ticketRepository, times(1)).deleteById(1);
     }
+
+    @Test
+    @DisplayName("Удаление существующего билета по ID")
+    public void testDeleteExistingTicketById() {
+        Integer ticketId = 1;
+        when(ticketRepository.existsById(ticketId)).thenReturn(true);
+        ticketService.deleteTicket(ticketId);
+
+        verify(ticketRepository, times(1)).deleteById(ticketId);
+    }
+
+    @Test
+    @DisplayName("Проверка доступности места для несуществующего рейса")
+    public void testIsSeatAvailableForNonExistentFlight() {
+        Integer flightId = 999;
+        String seat = "1A";
+
+        when(flightRepository.findById(flightId)).thenReturn(Optional.empty());
+        assertThrows(RuntimeException.class, () -> {
+            ticketService.isSeatAvailable(flightId, seat);
+        });
+
+        verify(flightRepository, times(1)).findById(flightId);
+    }
 }

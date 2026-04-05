@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - FlightRepositoryTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>FlightRepositoryTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/obuhov.airline.repository.html">obuhov.airline.repository</a> &gt; FlightRepositoryTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">6</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.165s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Method name</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">Создание рейса</td>
+<td class="success">testCreateFlight()</td>
+<td class="success">0.027s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Поиск рейсов по авиакомпании</td>
+<td class="success">testFindByAirlineId()</td>
+<td class="success">0.036s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Поиск рейсов по диапазону цен</td>
+<td class="success">testFindByCostRange()</td>
+<td class="success">0.020s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Поиск рейсов по дате</td>
+<td class="success">testFindByDepartureDate()</td>
+<td class="success">0.026s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Поиск рейсов по маршруту</td>
+<td class="success">testFindByRoute()</td>
+<td class="success">0.024s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">Поиск рейсов с доступными местами</td>
+<td class="success">testFindFlightsWithAvailableSeats()</td>
+<td class="success">0.032s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2026-04-05T18:24:24.966+03:00  INFO 6504 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [obuhov.airline.repository.FlightRepositoryTest]: FlightRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-04-05T18:24:24.973+03:00  INFO 6504 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration obuhov.airline.AirlineApplication for test class obuhov.airline.repository.FlightRepositoryTest
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airline (name) values (?)
+Hibernate: insert into flight (airlineid,arrival_airport,arrival_date,arrival_time,available_seats,cost,departure_airport,departure_date,departure_time) values (?,?,?,?,?,?,?,?,?)
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0
+Hibernate: select a1_0.airlineid,a1_0.name from airline a1_0
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airline (name) values (?)
+Hibernate: insert into flight (airlineid,arrival_airport,arrival_date,arrival_time,available_seats,cost,departure_airport,departure_date,departure_time) values (?,?,?,?,?,?,?,?,?)
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0 where f1_0.departure_date=?
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0
+Hibernate: select a1_0.airlineid,a1_0.name from airline a1_0
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airline (name) values (?)
+Hibernate: insert into flight (airlineid,arrival_airport,arrival_date,arrival_time,available_seats,cost,departure_airport,departure_date,departure_time) values (?,?,?,?,?,?,?,?,?)
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0 join airport aa1_0 on aa1_0.airportid=f1_0.arrival_airport join airport da1_0 on da1_0.airportid=f1_0.departure_airport where da1_0.city=? and aa1_0.city=?
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0
+Hibernate: select a1_0.airlineid,a1_0.name from airline a1_0
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airline (name) values (?)
+Hibernate: insert into flight (airlineid,arrival_airport,arrival_date,arrival_time,available_seats,cost,departure_airport,departure_date,departure_time) values (?,?,?,?,?,?,?,?,?)
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0 where f1_0.cost between ? and ?
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0
+Hibernate: select a1_0.airlineid,a1_0.name from airline a1_0
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airline (name) values (?)
+Hibernate: insert into flight (airlineid,arrival_airport,arrival_date,arrival_time,available_seats,cost,departure_airport,departure_date,departure_time) values (?,?,?,?,?,?,?,?,?)
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0 where character_length(f1_0.available_seats)&gt;0
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0
+Hibernate: select a1_0.airlineid,a1_0.name from airline a1_0
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airport (city,name) values (?,?)
+Hibernate: insert into airline (name) values (?)
+Hibernate: insert into flight (airlineid,arrival_airport,arrival_date,arrival_time,available_seats,cost,departure_airport,departure_date,departure_time) values (?,?,?,?,?,?,?,?,?)
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0 where f1_0.airlineid=?
+Hibernate: select f1_0.flightid,f1_0.airlineid,f1_0.arrival_airport,f1_0.arrival_date,f1_0.arrival_time,f1_0.available_seats,f1_0.cost,f1_0.departure_airport,f1_0.departure_date,f1_0.departure_time from flight f1_0
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select t1_0.flightid,t1_0.ticketid,t1_0.clientid,t1_0.is_paid,t1_0.seat from ticket t1_0 where t1_0.flightid=?
+Hibernate: select a1_0.airportid,a1_0.city,a1_0.name from airport a1_0
+Hibernate: select a1_0.airlineid,a1_0.name from airline a1_0
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.5</a> at 5 апр. 2026 г., 18:24:26</p>
+</div>
+</div>
+</body>
+</html>

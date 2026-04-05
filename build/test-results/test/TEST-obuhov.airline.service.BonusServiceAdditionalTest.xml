@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="obuhov.airline.service.BonusServiceAdditionalTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-04-05T15:24:25" hostname="GAGAGA" time="0.465">
+  <properties/>
+  <testcase name="getDistanceByClientAndAirline_returnsZeroWhenNull()" classname="obuhov.airline.service.BonusServiceAdditionalTest" time="0.432"/>
+  <testcase name="updateBonusCard_successAndNotFound()" classname="obuhov.airline.service.BonusServiceAdditionalTest" time="0.01"/>
+  <testcase name="traveledValidation_coversMissingClientAndAirline()" classname="obuhov.airline.service.BonusServiceAdditionalTest" time="0.004"/>
+  <testcase name="deleteBonusCard_notFound()" classname="obuhov.airline.service.BonusServiceAdditionalTest" time="0.004"/>
+  <testcase name="delegatingMethods_areCovered()" classname="obuhov.airline.service.BonusServiceAdditionalTest" time="0.005"/>
+  <testcase name="bonusCardValidation_coversMissingClientAndAirline()" classname="obuhov.airline.service.BonusServiceAdditionalTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

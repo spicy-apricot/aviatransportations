@@ -105,6 +105,26 @@ public class FlightServiceTest {
     }
 
     @Test
+    @DisplayName("Получение доступных мест с пустыми элементами (покрытие ветки filter)")
+    public void testGetAvailableSeatsFiltersEmptyStrings() {
+        Flight flightWithGaps = new Flight();
+        flightWithGaps.setFlightID(2);
+        // Специально добавляем лишние запятые и пробелы.
+        // После split(",") и trim() появятся пустые строки "", что заставит filter сработать в обеих ветках (true/false)
+        flightWithGaps.setAvailableSeats("1A, ,2B,, 3C ");
+
+        when(flightRepository.findById(2)).thenReturn(Optional.of(flightWithGaps));
+
+        List<String> seats = flightService.getAvailableSeats(2);
+
+        assertNotNull(seats);
+        assertEquals(3, seats.size()); // Останутся только "1A", "2B", "3C"
+        assertTrue(seats.contains("1A"));
+        assertTrue(seats.contains("2B"));
+        assertTrue(seats.contains("3C"));
+    }
+
+    @Test
     @DisplayName("Получение доступных мест")
     public void testGetAvailableSeats() {
         when(flightRepository.findById(1)).thenReturn(Optional.of(testFlight));

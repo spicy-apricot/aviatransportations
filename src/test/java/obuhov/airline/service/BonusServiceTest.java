@@ -161,4 +161,13 @@ public class BonusServiceTest {
             bonusService.addTraveledRecord(invalidTraveled);
         });
     }
+
+    @Test
+    @DisplayName("Удаление существующей бонусной карты по ID")
+    public void testDeleteExistingBonusCard() {
+        Integer cardId = 1;
+        when(bonusCardRepository.existsById(cardId)).thenReturn(true);
+        bonusService.deleteBonusCard(cardId);
+        verify(bonusCardRepository, times(1)).deleteById(cardId);
+    }
 }

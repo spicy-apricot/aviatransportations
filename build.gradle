@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.4'
     id 'io.spring.dependency-management' version '1.1.5'
+    id 'jacoco'
 }
 
 group = 'obuhov'
@@ -41,7 +42,31 @@ tasks.named('test') {
         events "passed", "skipped", "failed"
         showStandardStreams = true
     }
+    finalizedBy jacocoTestReport
 }
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        html.required = true      // HTML отчёт (для просмотра в браузере)
+        xml.required = true       // XML отчёт (для CI/CD)
+        csv.required = false
+        html.destination file("${buildDir}/reports/jacoco/html")
+        xml.destination file("${buildDir}/reports/jacoco/jacoco.xml")
+    }
+
+    // ✅ Исключить классы которые не нужно покрывать
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    '**/AirlineApplication.class',
+                    '**/entity/**',
+                    '**/dto/**'
+            ])
+        }))
+    }
+}
+
 
 // Явное указание главного класса
 springBoot {

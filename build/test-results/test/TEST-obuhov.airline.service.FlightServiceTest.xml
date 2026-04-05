@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="obuhov.airline.service.FlightServiceTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-04-05T15:24:26" hostname="GAGAGA" time="0.016">
+  <properties/>
+  <testcase name="Создание рейса" classname="obuhov.airline.service.FlightServiceTest" time="0.003"/>
+  <testcase name="Получение всех рейсов" classname="obuhov.airline.service.FlightServiceTest" time="0.001"/>
+  <testcase name="Подсчет количества доступных мест" classname="obuhov.airline.service.FlightServiceTest" time="0.002"/>
+  <testcase name="Поиск рейсов по дате" classname="obuhov.airline.service.FlightServiceTest" time="0.001"/>
+  <testcase name="Получение рейса по ID" classname="obuhov.airline.service.FlightServiceTest" time="0.001"/>
+  <testcase name="Получение доступных мест" classname="obuhov.airline.service.FlightServiceTest" time="0.001"/>
+  <testcase name="Получение доступных мест с пустыми элементами (покрытие ветки filter)" classname="obuhov.airline.service.FlightServiceTest" time="0.002"/>
+  <testcase name="Удаление рейса" classname="obuhov.airline.service.FlightServiceTest" time="0.001"/>
+  <testcase name="Создание рейса без аэропорта вылета - исключение" classname="obuhov.airline.service.FlightServiceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

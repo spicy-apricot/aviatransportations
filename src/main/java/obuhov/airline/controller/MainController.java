@@ -56,8 +56,8 @@ public class MainController {
         List<Client> clients = clientService.getAllClients();
         if (search != null && !search.isEmpty()) {
             clients = clients.stream()
-                    .filter(c -> c.getFullName().toLowerCase().contains(search.toLowerCase()) ||
-                            c.getPhone().contains(search))
+                    .filter(c -> c.getName().toLowerCase().contains(search.toLowerCase()) ||
+                            c.getPhoneNumber().contains(search))
                     .collect(Collectors.toList());
         }
         model.addAttribute("clients", clients);
@@ -70,7 +70,7 @@ public class MainController {
         Client client = clientService.getClientById(id)
                 .orElseThrow(() -> new RuntimeException("Client not found"));
         model.addAttribute("client", client);
-        model.addAttribute("traveled", bonusService.getTraveledByClient(id));
+        model.addAttribute("traveled", bonusService.getTraveledRecordsByClientId(id));
         return "clients/view";
     }
 
@@ -82,10 +82,10 @@ public class MainController {
 
     @PostMapping("/clients")
     public String saveClient(@ModelAttribute Client client) {
-        if (client.getId() == null) {
+        if (client.getClientID() == null) {
             clientService.createClient(client);
         } else {
-            clientService.updateClient(client.getId(), client);
+            clientService.updateClient(client.getClientID(), client);
         }
         return "redirect:/clients";
     }
@@ -122,7 +122,7 @@ public class MainController {
         }
         if (airlineId != null) {
             flights = flights.stream()
-                    .filter(f -> f.getAirline().getId().equals(airlineId))
+                    .filter(f -> f.getAirline().getAirlineID().equals(airlineId))
                     .collect(Collectors.toList());
         }
         if (minCost != null) {

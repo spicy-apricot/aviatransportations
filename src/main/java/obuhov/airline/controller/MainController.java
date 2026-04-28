@@ -1,12 +1,18 @@
 package obuhov.airline.controller;
 
 import obuhov.airline.entity.*;
+import obuhov.airline.repository.AirlineRepository;
+import obuhov.airline.repository.AirportRepository;
 import obuhov.airline.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,6 +24,8 @@ public class MainController {
     @Autowired private ClientService clientService;
     @Autowired private TicketService ticketService;
     @Autowired private BonusService bonusService;
+    @Autowired private AirportRepository airportRepository;
+    @Autowired private AirlineRepository airlineRepository;
 
     // === ГЛАВНАЯ СТРАНИЦА ===
     @GetMapping
@@ -29,12 +37,12 @@ public class MainController {
 
         if (from != null && !from.isEmpty()) {
             flights = flights.stream()
-                    .filter(f -> f.getDepartureAirport().getCity().toLowerCase().contains(from.toLowerCase()))
+                    .filter(f -> f.getDepartureAirport() != null && containsIgnoreCase(f.getDepartureAirport().getCity(), from))
                     .collect(Collectors.toList());
         }
         if (to != null && !to.isEmpty()) {
             flights = flights.stream()
-                    .filter(f -> f.getArrivalAirport().getCity().toLowerCase().contains(to.toLowerCase()))
+                    .filter(f -> f.getArrivalAirport() != null && containsIgnoreCase(f.getArrivalAirport().getCity(), to))
                     .collect(Collectors.toList());
         }
         if (date != null) {
@@ -56,8 +64,7 @@ public class MainController {
         List<Client> clients = clientService.getAllClients();
         if (search != null && !search.isEmpty()) {
             clients = clients.stream()
-                    .filter(c -> c.getName().toLowerCase().contains(search.toLowerCase()) ||
-                            c.getPhoneNumber().contains(search))
+                    .filter(c -> containsIgnoreCase(c.getName(), search) || containsIgnoreCase(c.getPhoneNumber(), search))
                     .collect(Collectors.toList());
         }
         model.addAttribute("clients", clients);
@@ -68,7 +75,7 @@ public class MainController {
     @GetMapping("/clients/{id}")
     public String viewClient(@PathVariable Integer id, Model model) {
         Client client = clientService.getClientById(id)
-                .orElseThrow(() -> new RuntimeException("Client not found"));
+                .orElseThrow(() -> notFound("Client not found"));
         model.addAttribute("client", client);
         model.addAttribute("traveled", bonusService.getTraveledRecordsByClientId(id));
         return "clients/view";
@@ -93,7 +100,7 @@ public class MainController {
     @GetMapping("/clients/{id}/edit")
     public String editClient(@PathVariable Integer id, Model model) {
         Client client = clientService.getClientById(id)
-                .orElseThrow(() -> new RuntimeException("Client not found"));
+                .orElseThrow(() -> notFound("Client not found"));
         model.addAttribute("client", client);
         return "clients/form";
     }
@@ -116,8 +123,8 @@ public class MainController {
         if (filter != null && !filter.isEmpty()) {
             flights = flights.stream()
                     .filter(f -> f.getFlightID().toString().contains(filter) ||
-                            f.getDepartureAirport().getName().toLowerCase().contains(filter.toLowerCase()) ||
-                            f.getArrivalAirport().getName().toLowerCase().contains(filter.toLowerCase()))
+                            (f.getDepartureAirport() != null && containsIgnoreCase(f.getDepartureAirport().getName(), filter)) ||
+                            (f.getArrivalAirport() != null && containsIgnoreCase(f.getArrivalAirport().getName(), filter)))
                     .collect(Collectors.toList());
         }
         if (airlineId != null) {
@@ -137,14 +144,18 @@ public class MainController {
         }
 
         model.addAttribute("flights", flights);
-        model.addAttribute("airlines", new ArrayList<>()); // Можно добавить сервис AirlineService
+        model.addAttribute("airlines", airlineRepository.findAll());
+        model.addAttribute("filter", filter);
+        model.addAttribute("airlineId", airlineId);
+        model.addAttribute("minCost", minCost);
+        model.addAttribute("maxCost", maxCost);
         return "flights/list";
     }
 
     @GetMapping("/flights/{id}")
     public String viewFlight(@PathVariable Integer id, Model model) {
         Flight flight = flightService.getFlightById(id)
-                .orElseThrow(() -> new RuntimeException("Flight not found"));
+                .orElseThrow(() -> notFound("Flight not found"));
         model.addAttribute("flight", flight);
         model.addAttribute("availableSeats", flightService.getAvailableSeats(id));
         return "flights/view";
@@ -153,11 +164,33 @@ public class MainController {
     @GetMapping("/flights/new")
     public String newFlightForm(Model model) {
         model.addAttribute("flight", new Flight());
+        addFlightDictionaries(model);
         return "flights/form";
     }
 
     @PostMapping("/flights")
-    public String saveFlight(@ModelAttribute Flight flight) {
+    public String saveFlight(@RequestParam(required = false) Integer flightID,
+                             @RequestParam Integer departureAirportId,
+                             @RequestParam Integer arrivalAirportId,
+                             @RequestParam Integer airlineId,
+                             @RequestParam LocalDate departureDate,
+                             @RequestParam LocalDate arrivalDate,
+                             @RequestParam String departureTime,
+                             @RequestParam String arrivalTime,
+                             @RequestParam Integer cost,
+                             @RequestParam(required = false) String availableSeats) {
+        Flight flight = new Flight();
+        flight.setFlightID(flightID);
+        flight.setDepartureAirport(airportRepository.findById(departureAirportId).orElseThrow(() -> notFound("Departure airport not found")));
+        flight.setArrivalAirport(airportRepository.findById(arrivalAirportId).orElseThrow(() -> notFound("Arrival airport not found")));
+        flight.setAirline(airlineRepository.findById(airlineId).orElseThrow(() -> notFound("Airline not found")));
+        flight.setDepartureDate(departureDate);
+        flight.setArrivalDate(arrivalDate);
+        flight.setDepartureTime(LocalTime.parse(departureTime));
+        flight.setArrivalTime(LocalTime.parse(arrivalTime));
+        flight.setCost(cost);
+        flight.setAvailableSeats(availableSeats);
+
         if (flight.getFlightID() == null) {
             flightService.createFlight(flight);
         } else {
@@ -169,8 +202,9 @@ public class MainController {
     @GetMapping("/flights/{id}/edit")
     public String editFlight(@PathVariable Integer id, Model model) {
         Flight flight = flightService.getFlightById(id)
-                .orElseThrow(() -> new RuntimeException("Flight not found"));
+                .orElseThrow(() -> notFound("Flight not found"));
         model.addAttribute("flight", flight);
+        addFlightDictionaries(model);
         return "flights/form";
     }
 
@@ -184,7 +218,7 @@ public class MainController {
     @GetMapping("/flights/{id}/buy")
     public String buyTicket(@PathVariable Integer id, @RequestParam String seat, Model model) {
         Flight flight = flightService.getFlightById(id)
-                .orElseThrow(() -> new RuntimeException("Flight not found"));
+                .orElseThrow(() -> notFound("Flight not found"));
 
         if (!flightService.isSeatAvailable(id, seat)) {
             model.addAttribute("error", "Место " + seat + " уже занято");
@@ -238,5 +272,30 @@ public class MainController {
             model.addAttribute("clientPhone", clientPhone);
             return "order/failure";
         }
+    }
+
+    @GetMapping("/order/success")
+    public String successPage(Model model) {
+        model.addAttribute("orderId", "TEST");
+        return "order/success";
+    }
+
+    @GetMapping("/order/failure")
+    public String failurePage(Model model) {
+        model.addAttribute("error", "Платеж не был выполнен");
+        return "order/failure";
+    }
+
+    private boolean containsIgnoreCase(String value, String search) {
+        return value != null && search != null && value.toLowerCase().contains(search.toLowerCase());
+    }
+
+    private ResponseStatusException notFound(String message) {
+        return new ResponseStatusException(HttpStatus.NOT_FOUND, message);
+    }
+
+    private void addFlightDictionaries(Model model) {
+        model.addAttribute("airports", airportRepository.findAll());
+        model.addAttribute("airlines", airlineRepository.findAll());
     }
 }

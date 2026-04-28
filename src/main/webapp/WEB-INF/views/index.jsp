@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,7 @@
     </div>
 
     <div class="card mb-4">
-        <div class="card-header">🔍 Поиск рейсов</div>
+        <div class="card-header">Поиск рейсов</div>
         <div class="card-body">
             <form method="get" action="${pageContext.request.contextPath}/" class="row g-3">
                 <div class="col-md-3">

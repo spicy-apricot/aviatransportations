@@ -100,6 +100,9 @@ class FlightServiceAdditionalTest {
         when(flightRepository.findById(1)).thenReturn(Optional.of(flight));
         assertTrue(flightService.getAvailableSeats(1).isEmpty());
 
+        flight.setAvailableSeats(null);
+        assertTrue(flightService.getAvailableSeats(1).isEmpty());
+
         when(flightRepository.findById(2)).thenReturn(Optional.empty());
         assertThrows(RuntimeException.class, () -> flightService.getAvailableSeats(2));
     }
@@ -123,6 +126,9 @@ class FlightServiceAdditionalTest {
         invalidCost.setArrivalAirport(new Airport());
         invalidCost.setAirline(new Airline());
         invalidCost.setCost(0);
+        assertThrows(IllegalArgumentException.class, () -> flightService.createFlight(invalidCost));
+
+        invalidCost.setCost(null);
         assertThrows(IllegalArgumentException.class, () -> flightService.createFlight(invalidCost));
     }
 }

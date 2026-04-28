@@ -85,12 +85,35 @@ class TicketServiceAdditionalTest {
         noSeat.setIsPaid(0);
         assertThrows(IllegalArgumentException.class, () -> ticketService.createTicket(noSeat));
 
+        Ticket nullSeat = new Ticket();
+        nullSeat.setFlight(flight);
+        nullSeat.setClient(client);
+        nullSeat.setSeat(null);
+        nullSeat.setIsPaid(0);
+        assertThrows(IllegalArgumentException.class, () -> ticketService.createTicket(nullSeat));
+
         Ticket badPaid = new Ticket();
         badPaid.setFlight(flight);
         badPaid.setClient(client);
         badPaid.setSeat("1A");
         badPaid.setIsPaid(2);
         assertThrows(IllegalArgumentException.class, () -> ticketService.createTicket(badPaid));
+
+        Ticket paid = new Ticket();
+        paid.setFlight(flight);
+        paid.setClient(client);
+        paid.setSeat("1B");
+        paid.setIsPaid(1);
+        when(ticketRepository.existsByFlightIdAndSeat(2, "1B")).thenReturn(false);
+        when(ticketRepository.save(paid)).thenReturn(paid);
+        assertSame(paid, ticketService.createTicket(paid));
+
+        Ticket nullPaid = new Ticket();
+        nullPaid.setFlight(flight);
+        nullPaid.setClient(client);
+        nullPaid.setSeat("1A");
+        nullPaid.setIsPaid(null);
+        assertThrows(IllegalArgumentException.class, () -> ticketService.createTicket(nullPaid));
     }
 
     @Test
@@ -131,6 +154,9 @@ class TicketServiceAdditionalTest {
         flight.setAvailableSeats(null);
         when(flightRepository.findById(2)).thenReturn(Optional.of(flight));
         assertThrows(IllegalArgumentException.class, () -> ticketService.bookTicket(2, 1, "1A"));
+
+        flight.setAvailableSeats("");
+        assertThrows(IllegalArgumentException.class, () -> ticketService.bookTicket(2, 1, "1A"));
     }
 
     @Test
@@ -153,5 +179,16 @@ class TicketServiceAdditionalTest {
 
         when(flightRepository.findById(99)).thenReturn(Optional.empty());
         assertThrows(RuntimeException.class, () -> ticketService.calculateTicketPrice(99, 1));
+    }
+
+    @Test
+    void isSeatAvailable_coversMissingSeatAndExistingTicketBranches() {
+        when(flightRepository.findById(2)).thenReturn(Optional.of(flight));
+        when(ticketRepository.existsByFlightIdAndSeat(2, "1A")).thenReturn(true);
+        when(ticketRepository.existsByFlightIdAndSeat(2, "1B")).thenReturn(false);
+
+        assertFalse(ticketService.isSeatAvailable(2, "9Z"));
+        assertFalse(ticketService.isSeatAvailable(2, "1A"));
+        assertTrue(ticketService.isSeatAvailable(2, "1B"));
     }
 }

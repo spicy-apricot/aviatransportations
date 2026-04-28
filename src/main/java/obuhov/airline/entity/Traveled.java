@@ -26,7 +26,7 @@ public class Traveled {
     private Airline airline;
 
     @Column(name = "Distance")
-    @Check(constraints = "Distance > 0")
+    @Check(constraints = "distance > 0")
     private Integer distance;
 
 

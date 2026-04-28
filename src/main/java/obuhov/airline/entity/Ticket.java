@@ -29,7 +29,7 @@ public class Ticket {
     private String seat;
 
     @Column(name = "Is_paid")
-    @Check(constraints = "Is_paid IN (0, 1)")
+    @Check(constraints = "is_paid IN (0, 1)")
     private Integer isPaid;
 
 

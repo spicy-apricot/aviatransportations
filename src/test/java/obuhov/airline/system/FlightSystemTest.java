@@ -1,123 +1,90 @@
 package obuhov.airline.system;
 
-import com.meterware.httpunit.*;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {
-        "spring.datasource.url=jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1",
-        "spring.jpa.hibernate.ddl-auto=create-drop"
+        "spring.datasource.url=jdbc:h2:mem:systemtest;MODE=PostgreSQL;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1",
+        "spring.datasource.driver-class-name=org.h2.Driver",
+        "spring.jpa.hibernate.ddl-auto=create-drop",
+        "spring.jpa.show-sql=false"
 })
-public class FlightSystemTest {
+class FlightSystemTest {
 
     @LocalServerPort
     private int port;
 
-    private WebConversation wc;
-    private String baseUrl;
+    @Autowired
+    private TestRestTemplate rest;
 
-    @BeforeEach
-    public void setUp() {
-        wc = new WebConversation();
-        baseUrl = "http://localhost:" + port;
+    @Test
+    void homePageLoads() {
+        ResponseEntity<String> response = get("/");
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(response.getBody().contains("AviaTransport"));
+        assertTrue(response.getBody().contains("Поиск рейсов"));
     }
 
     @Test
-    public void testHomePageLoads() throws Exception {
-        WebResponse response = wc.getResponse(baseUrl + "/");
-        assertEquals(200, response.getResponseCode());
-        assertTrue(response.getText().contains("AviaTransport"));
-        assertTrue(response.getText().contains("Поиск рейсов"));
+    void flightListPageLoads() {
+        ResponseEntity<String> response = get("/flights");
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(response.getBody().contains("Рейсы"));
+        assertTrue(response.getBody().contains("confirm(") || response.getBody().contains("Рейсы не найдены"));
     }
 
     @Test
-    public void testFlightListPage() throws Exception {
-        WebResponse response = wc.getResponse(baseUrl + "/flights");
-        assertEquals(200, response.getResponseCode());
-        // Проверяем наличие таблицы с рейсами
-        assertTrue(response.getText().contains("table") || response.getText().contains("Рейсы"));
+    void flightSearchKeepsDateInForm() {
+        ResponseEntity<String> response = get("/?date=2024-06-01");
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertTrue(response.getBody().contains("2024-06-01"));
     }
 
     @Test
-    public void testFlightSearchByDate() throws Exception {
-        WebResponse response = wc.getResponse(baseUrl + "/?date=2024-06-01");
-        assertEquals(200, response.getResponseCode());
-        // Проверка, что параметр даты передан в форму
-        assertTrue(response.getText().contains("2024-06-01") || response.getText().contains("searchDate"));
+    void clientListAndCreateFormLoad() {
+        ResponseEntity<String> list = get("/clients");
+        ResponseEntity<String> form = get("/clients/new");
+
+        assertEquals(HttpStatus.OK, list.getStatusCode());
+        assertEquals(HttpStatus.OK, form.getStatusCode());
+        assertTrue(list.getBody().contains("Клиенты"));
+        assertTrue(form.getBody().contains("<form"));
+        assertTrue(form.getBody().contains("name=\"name\""));
+        assertTrue(form.getBody().contains("name=\"phoneNumber\""));
     }
 
     @Test
-    public void testClientListPage() throws Exception {
-        WebResponse response = wc.getResponse(baseUrl + "/clients");
-        assertEquals(200, response.getResponseCode());
-        assertTrue(response.getText().contains("Клиенты") || response.getText().contains("clients"));
+    void missingFlightReturns404InsteadOfServerError() {
+        ResponseEntity<String> response = get("/flights/1");
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
-    public void testCreateClientForm() throws Exception {
-        WebResponse response = wc.getResponse(baseUrl + "/clients/new");
-        assertEquals(200, response.getResponseCode());
-        // Проверяем наличие формы
-        WebForm form = response.getForms()[0];
-        assertNotNull(form);
+    void paymentResultPagesLoad() {
+        ResponseEntity<String> success = get("/order/success");
+        ResponseEntity<String> failure = get("/order/failure");
+
+        assertEquals(HttpStatus.OK, success.getStatusCode());
+        assertEquals(HttpStatus.OK, failure.getStatusCode());
+        assertTrue(success.getBody().contains("Заказ успешно оформлен"));
+        assertTrue(failure.getBody().contains("Ошибка оплаты"));
     }
 
-    @Test
-    public void testFlightDetailsPage() throws Exception {
-        // Предполагаем, что есть рейс с ID=1 (из тестовых данных)
-        WebResponse response = wc.getResponse(baseUrl + "/flights/1");
-        // Может вернуть 404 если нет данных, но страница должна существовать
-        assertTrue(response.getResponseCode() == 200 || response.getResponseCode() == 404);
-    }
-
-    @Test
-    public void testTicketPurchaseFlow_Start() throws Exception {
-        // Начинаем процесс покупки: переход на страницу рейса
-        WebResponse flightPage = wc.getResponse(baseUrl + "/flights/1");
-        if (flightPage.getResponseCode() == 200) {
-            // Ищем ссылку на покупку (если есть свободные места)
-            WebLink[] links = flightPage.getLinks();
-            boolean hasBuyLink = false;
-            for (WebLink link : links) {
-                if (link.getText().contains("Купить") || link.getURLString().contains("/buy")) {
-                    hasBuyLink = true;
-                    break;
-                }
-            }
-            // Тест проходит, если структура ссылок корректна
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testPaymentSuccessPage() throws Exception {
-        // Прямой доступ к странице успеха (для теста структуры)
-        // В реальном сценарии сюда ведёт форма оплаты
-        WebResponse response = wc.getResponse(baseUrl + "/order/success");
-        // Страница может требовать параметры, проверяем только доступность контроллера
-        assertTrue(response.getResponseCode() == 200 || response.getResponseCode() == 400);
-    }
-
-    @Test
-    public void testPaymentFailurePage() throws Exception {
-        WebResponse response = wc.getResponse(baseUrl + "/order/failure");
-        assertTrue(response.getResponseCode() == 200 || response.getResponseCode() == 400);
-    }
-
-    @Test
-    public void testDeleteFlightConfirmation() throws Exception {
-        // Проверяем, что форма удаления имеет JavaScript-подтверждение
-        WebResponse response = wc.getResponse(baseUrl + "/flights");
-        if (response.getResponseCode() == 200) {
-            String text = response.getText();
-            // Проверяем наличие onsubmit="return confirm"
-            assertTrue(text.contains("confirm(") || text.contains("delete"),
-                    "Форма удаления должна иметь подтверждение");
-        }
+    private ResponseEntity<String> get(String path) {
+        return rest.getForEntity("http://localhost:" + port + path, String.class);
     }
 }

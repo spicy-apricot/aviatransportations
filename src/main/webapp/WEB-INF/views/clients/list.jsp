@@ -1,15 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
-<html>
-<head><title>Клиенты</title>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Клиенты - AviaTransport</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <%@ include file="../layout/header.jsp" %>
 <div class="container">
-    <h2>Клиенты</h2>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Клиенты</h2>
+        <a href="${pageContext.request.contextPath}/clients/new" class="btn btn-success">Создать клиента</a>
+    </div>
 
     <form method="get" class="mb-3">
         <div class="input-group">
@@ -19,28 +23,34 @@
         </div>
     </form>
 
-    <a href="${pageContext.request.contextPath}/clients/new" class="btn btn-success mb-3">+ Создать клиента</a>
-
     <table class="table table-hover">
         <thead>
-            <tr><th>ФИО</th><th>Телефон</th><th>Рейсы</th><th>Действия</th></tr>
+        <tr>
+            <th>ID</th>
+            <th>ФИО</th>
+            <th>Телефон</th>
+            <th>Email</th>
+            <th class="text-end">Действия</th>
+        </tr>
         </thead>
         <tbody>
-            <c:forEach var="c" items="${clients}">
-                <tr>
-                    <td><a href="${pageContext.request.contextPath}/clients/${c.id}">${c.fullName}</a></td>
-                    <td>${c.phone}</td>
-                    <td>${fn:length(c.tickets)} билетов</td>
-                    <td>
-                        <a href="${pageContext.request.contextPath}/clients/${c.id}/edit" class="btn btn-sm btn-warning">✏️</a>
-                        <form method="post" action="${pageContext.request.contextPath}/clients/${c.id}/delete" style="display:inline" onsubmit="return confirm('Удалить клиента?')">
-                            <button class="btn btn-sm btn-danger">🗑️</button>
-                        </form>
-                    </td>
-                </tr>
-            </c:forEach>
+        <c:forEach var="client" items="${clients}">
+            <tr>
+                <td>${client.clientID}</td>
+                <td><a href="${pageContext.request.contextPath}/clients/${client.clientID}">${client.name}</a></td>
+                <td>${client.phoneNumber}</td>
+                <td>${client.email}</td>
+                <td class="text-end">
+                    <a href="${pageContext.request.contextPath}/clients/${client.clientID}/edit" class="btn btn-sm btn-outline-warning">Редактировать</a>
+                    <form method="post" action="${pageContext.request.contextPath}/clients/${client.clientID}/delete" style="display:inline" onsubmit="return confirm('Удалить клиента?')">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
 </div>
+<%@ include file="../layout/footer.jsp" %>
 </body>
 </html>

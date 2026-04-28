@@ -36,6 +36,12 @@ class ClientServiceAdditionalTest {
         when(clientRepository.searchByNameOrPhone("", "")).thenReturn(List.of(client));
         List<Client> result = clientService.searchClients(null, null);
         assertEquals(1, result.size());
+
+        when(clientRepository.searchByNameOrPhone("", "+7")).thenReturn(List.of(client));
+        assertEquals(1, clientService.searchClients("", "+7").size());
+
+        when(clientRepository.searchByNameOrPhone("Иван", "")).thenReturn(List.of(client));
+        assertEquals(1, clientService.searchClients("Иван", "").size());
     }
 
     @Test
@@ -80,5 +86,15 @@ class ClientServiceAdditionalTest {
         invalid.setName("Иван");
         invalid.setPhoneNumber("");
         assertThrows(IllegalArgumentException.class, () -> clientService.updateClient(1, invalid));
+
+        Client nullPhone = new Client();
+        nullPhone.setName("Иван");
+        nullPhone.setPhoneNumber(null);
+        assertThrows(IllegalArgumentException.class, () -> clientService.updateClient(1, nullPhone));
+
+        Client emptyName = new Client();
+        emptyName.setName("");
+        emptyName.setPhoneNumber("+7");
+        assertThrows(IllegalArgumentException.class, () -> clientService.updateClient(1, emptyName));
     }
 }

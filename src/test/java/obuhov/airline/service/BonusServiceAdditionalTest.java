@@ -88,6 +88,18 @@ class BonusServiceAdditionalTest {
         missingAirline.setClient(client);
         missingAirline.setDiscount(10);
         assertThrows(IllegalArgumentException.class, () -> bonusService.createBonusCard(missingAirline));
+
+        BonusCard nullDiscount = new BonusCard();
+        nullDiscount.setClient(client);
+        nullDiscount.setAirline(airline);
+        nullDiscount.setDiscount(null);
+        assertThrows(IllegalArgumentException.class, () -> bonusService.createBonusCard(nullDiscount));
+
+        BonusCard negativeDiscount = new BonusCard();
+        negativeDiscount.setClient(client);
+        negativeDiscount.setAirline(airline);
+        negativeDiscount.setDiscount(-1);
+        assertThrows(IllegalArgumentException.class, () -> bonusService.createBonusCard(negativeDiscount));
     }
 
     @Test
@@ -101,5 +113,11 @@ class BonusServiceAdditionalTest {
         missingAirline.setClient(client);
         missingAirline.setDistance(100);
         assertThrows(IllegalArgumentException.class, () -> bonusService.addTraveledRecord(missingAirline));
+
+        Traveled nullDistance = new Traveled();
+        nullDistance.setClient(client);
+        nullDistance.setAirline(airline);
+        nullDistance.setDistance(null);
+        assertThrows(IllegalArgumentException.class, () -> bonusService.addTraveledRecord(nullDistance));
     }
 }

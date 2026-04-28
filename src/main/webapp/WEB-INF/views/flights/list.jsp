@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -13,8 +13,8 @@
 
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>✈️ Рейсы</h2>
-        <a href="${pageContext.request.contextPath}/flights/new" class="btn btn-success">+ Создать рейс</a>
+        <h2>Рейсы</h2>
+        <a href="${pageContext.request.contextPath}/flights/new" class="btn btn-success">Создать рейс</a>
     </div>
 
     <!-- Filters -->
@@ -37,12 +37,12 @@
                     <select name="airlineId" class="form-select">
                         <option value="">Все авиакомпании</option>
                         <c:forEach var="a" items="${airlines}">
-                            <option value="${a.id}" ${airlineId == a.id ? 'selected' : ''}>${a.name}</option>
+                            <option value="${a.airlineID}" ${airlineId == a.airlineID ? 'selected' : ''}>${a.name}</option>
                         </c:forEach>
                     </select>
                 </div>
                 <div class="col-md-1">
-                    <button type="submit" class="btn btn-primary w-100">🔍</button>
+                    <button type="submit" class="btn btn-primary w-100">Найти</button>
                 </div>
                 <div class="col-md-2">
                     <a href="${pageContext.request.contextPath}/flights" class="btn btn-outline-secondary w-100">Сбросить</a>
@@ -100,12 +100,12 @@
                                 <td class="text-end">
                                     <div class="btn-group btn-group-sm">
                                         <a href="${pageContext.request.contextPath}/flights/${f.flightID}"
-                                           class="btn btn-outline-primary">👁️</a>
+                                           class="btn btn-outline-primary">Открыть</a>
                                         <a href="${pageContext.request.contextPath}/flights/${f.flightID}/edit"
-                                           class="btn btn-outline-warning">✏️</a>
+                                           class="btn btn-outline-warning">Изменить</a>
                                         <form method="post" action="${pageContext.request.contextPath}/flights/${f.flightID}/delete"
                                               style="display:inline" onsubmit="return confirm('Удалить рейс #${f.flightID}?')">
-                                            <button type="submit" class="btn btn-outline-danger">🗑️</button>
+                                            <button type="submit" class="btn btn-outline-danger">Удалить</button>
                                         </form>
                                     </div>
                                 </td>

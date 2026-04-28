@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head><title>Оформление заказа</title>
@@ -8,7 +8,7 @@
 <body>
 <%@ include file="../layout/header.jsp" %>
 <div class="container">
-    <h2>🎫 Оформление билета</h2>
+    <h2>Оформление билета</h2>
 
     <div class="card mb-4">
         <div class="card-header">Информация о рейсе</div>

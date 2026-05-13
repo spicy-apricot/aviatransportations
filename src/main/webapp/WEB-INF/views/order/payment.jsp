@@ -24,7 +24,7 @@
                         <p class="mb-1"><strong>Место:</strong> ${seat}</p>
                         <p class="mb-1"><strong>Пассажир:</strong> ${clientName}</p>
                         <hr class="my-2">
-                        <p class="mb-0 fs-5">К оплате: <strong class="text-success">${param.flightCost} ₽</strong></p>
+                        <p class="mb-0 fs-5">К оплате: <strong class="text-success">${flightCost} ₽</strong></p>
                     </div>
 
                     <!-- Bonus Cards -->
@@ -49,7 +49,7 @@
                         <input type="hidden" name="seat" value="${seat}">
                         <input type="hidden" name="clientName" value="${clientName}">
                         <input type="hidden" name="clientPhone" value="${clientPhone}">
-                        <input type="hidden" name="flightCost" value="${param.flightCost}">
+                        <input type="hidden" name="flightCost" value="${flightCost}">
 
                         <div class="mb-3">
                             <label class="form-label">Номер карты</label>
@@ -79,7 +79,7 @@
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-success btn-lg">
-                                💰 Оплатить ${param.flightCost} ₽
+                                💰 Оплатить ${flightCost} ₽
                             </button>
                             <a href="${pageContext.request.contextPath}/flights/${flightId}"
                                class="btn btn-outline-secondary">Отмена</a>

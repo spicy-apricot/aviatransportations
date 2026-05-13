@@ -23,6 +23,7 @@
     <form method="post" action="${pageContext.request.contextPath}/order/confirm">
         <input type="hidden" name="flightId" value="${flight.flightID}">
         <input type="hidden" name="seat" value="${seat}">
+        <input type="hidden" name="flightCost" value="${flight.cost}">
 
         <div class="mb-3">
             <label class="form-label">ФИО пассажира *</label>

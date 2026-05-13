@@ -42,7 +42,7 @@
                         <dd class="col-sm-7">${param.clientName}</dd>
 
                         <dt class="col-sm-5">Оплачено</dt>
-                        <dd class="col-sm-7 text-success fw-bold">${param.flightCost} ₽</dd>
+                        <dd class="col-sm-7 text-success fw-bold">${flightCost} ₽</dd>
                     </dl>
                 </div>
             </div>

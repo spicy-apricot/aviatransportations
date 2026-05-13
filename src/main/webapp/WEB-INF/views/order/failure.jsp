@@ -36,7 +36,7 @@
                             <dt class="col-sm-5">Место</dt>
                             <dd class="col-sm-7">${param.seat}</dd>
                             <dt class="col-sm-5">Сумма</dt>
-                            <dd class="col-sm-7">${param.flightCost} ₽</dd>
+                            <dd class="col-sm-7">${flightCost} ₽</dd>
                         </dl>
                     </div>
                 </div>

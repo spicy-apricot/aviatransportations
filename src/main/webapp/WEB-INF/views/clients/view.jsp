@@ -19,6 +19,25 @@
         <dt class="col-sm-3">Email</dt><dd class="col-sm-9">${client.email}</dd>
         <dt class="col-sm-3">Адрес</dt><dd class="col-sm-9">${client.address}</dd>
     </dl>
+    <h4 class="mt-4">Билеты клиента</h4>
+    <c:choose>
+        <c:when test="${not empty tickets}">
+            <table class="table">
+                <thead><tr><th>Рейс</th><th>Маршрут</th><th>Место</th><th>Статус</th></tr></thead>
+                <tbody>
+                <c:forEach var="ticket" items="${tickets}">
+                    <tr>
+                        <td><a href="${pageContext.request.contextPath}/flights/${ticket.flight.flightID}">#${ticket.flight.flightID}</a></td>
+                        <td>${ticket.flight.departureAirport.city} → ${ticket.flight.arrivalAirport.city}</td>
+                        <td>${ticket.seat}</td>
+                        <td>${ticket.isPaid == 1 ? 'Оплачен' : 'Забронирован'}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:when>
+        <c:otherwise><p class="text-muted">Билетов пока нет.</p></c:otherwise>
+    </c:choose>
     <h4 class="mt-4">Статистика перелетов</h4>
     <c:choose>
         <c:when test="${not empty traveled}">

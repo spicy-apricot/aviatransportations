@@ -77,6 +77,7 @@ public class MainController {
         Client client = clientService.getClientById(id)
                 .orElseThrow(() -> notFound("Client not found"));
         model.addAttribute("client", client);
+        model.addAttribute("tickets", clientService.getClientTickets(id));
         model.addAttribute("traveled", bonusService.getTraveledRecordsByClientId(id));
         return "clients/view";
     }
@@ -221,6 +222,8 @@ public class MainController {
                 .orElseThrow(() -> notFound("Flight not found"));
 
         if (!flightService.isSeatAvailable(id, seat)) {
+            model.addAttribute("flight", flight);
+            model.addAttribute("availableSeats", flightService.getAvailableSeats(id));
             model.addAttribute("error", "Место " + seat + " уже занято");
             return "flights/view";
         }
@@ -236,12 +239,14 @@ public class MainController {
                                @RequestParam String seat,
                                @RequestParam String clientName,
                                @RequestParam String clientPhone,
+                               @RequestParam(required = false) Integer flightCost,
                                Model model) {
         // Создаём временный объект для отображения на странице оплаты
         model.addAttribute("flightId", flightId);
         model.addAttribute("seat", seat);
         model.addAttribute("clientName", clientName);
         model.addAttribute("clientPhone", clientPhone);
+        model.addAttribute("flightCost", flightCost);
         model.addAttribute("bonusCards", new ArrayList<>()); // bonusService.getCardsByClient()
         return "order/payment";
     }
@@ -251,18 +256,27 @@ public class MainController {
                                  @RequestParam String seat,
                                  @RequestParam String clientName,
                                  @RequestParam String clientPhone,
+                                 @RequestParam(required = false) Integer flightCost,
                                  @RequestParam(required = false) Integer bonusCardId,
                                  Model model) {
         try {
-            Flight flight = flightService.getFlightById(flightId).get();
-            String seats = flight.getAvailableSeats();
+            Flight flight = flightService.getFlightById(flightId)
+                    .orElseThrow(() -> new RuntimeException("Flight not found"));
+            Client client = clientService.findByNameAndPhoneNumber(clientName, clientPhone)
+                    .orElseGet(() -> clientService.createClient(new Client(null, clientName, clientPhone, null, null)));
+            Ticket bookedTicket = ticketService.bookTicket(flightId, client.getClientID(), seat);
+            ticketService.payTicket(bookedTicket.getTicketID());
+
+            String seats = flight.getAvailableSeats() == null ? "" : flight.getAvailableSeats();
             String newSeats = Arrays.stream(seats.split(","))
-                    .filter(s -> !s.trim().equals(seat))
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty() && !s.equals(seat))
                     .collect(Collectors.joining(","));
             flight.setAvailableSeats(newSeats);
             flightService.updateFlight(flightId, flight);
 
             model.addAttribute("orderId", UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+            model.addAttribute("flightCost", flightCost);
             return "order/success";
         } catch (Exception e) {
             model.addAttribute("error", "Ошибка оплаты: " + e.getMessage());
@@ -270,6 +284,7 @@ public class MainController {
             model.addAttribute("seat", seat);
             model.addAttribute("clientName", clientName);
             model.addAttribute("clientPhone", clientPhone);
+            model.addAttribute("flightCost", flightCost);
             return "order/failure";
         }
     }

@@ -4,6 +4,7 @@ import obuhov.airline.entity.Airline;
 import obuhov.airline.entity.Airport;
 import obuhov.airline.entity.Client;
 import obuhov.airline.entity.Flight;
+import obuhov.airline.entity.Ticket;
 import obuhov.airline.repository.AirlineRepository;
 import obuhov.airline.repository.AirportRepository;
 import obuhov.airline.service.BonusService;
@@ -106,6 +107,7 @@ class MainControllerCoverageTest {
 
         Model viewModel = new ExtendedModelMap();
         when(bonusService.getTraveledRecordsByClientId(1)).thenReturn(List.of());
+        when(clientService.getClientTickets(1)).thenReturn(List.of());
         assertEquals("clients/view", controller.viewClient(1, viewModel));
         assertSame(savedClient, viewModel.asMap().get("client"));
         assertThrows(ResponseStatusException.class, () -> controller.viewClient(404, new ExtendedModelMap()));
@@ -216,23 +218,37 @@ class MainControllerCoverageTest {
         assertEquals("1A", checkoutModel.asMap().get("seat"));
 
         Model busySeatModel = new ExtendedModelMap();
+        when(flightService.getAvailableSeats(1)).thenReturn(List.of("1A", "1B"));
         assertEquals("flights/view", controller.buyTicket(1, "1B", busySeatModel));
         assertTrue(busySeatModel.asMap().get("error").toString().contains("занято"));
+        assertSame(flight, busySeatModel.asMap().get("flight"));
         assertThrows(ResponseStatusException.class, () -> controller.buyTicket(404, "1A", new ExtendedModelMap()));
 
         Model confirmModel = new ExtendedModelMap();
-        assertEquals("order/payment", controller.confirmOrder(1, "1A", "Иван", "+7000", confirmModel));
+        assertEquals("order/payment", controller.confirmOrder(1, "1A", "Иван", "+7000", 7000, confirmModel));
         assertEquals("Иван", confirmModel.asMap().get("clientName"));
+        assertEquals(7000, confirmModel.asMap().get("flightCost"));
 
+        when(clientService.findByNameAndPhoneNumber("Иван", "+7000")).thenReturn(Optional.empty());
+        Client createdClient = client(77, "Иван", "+7000");
+        when(clientService.createClient(any(Client.class))).thenReturn(createdClient);
+        Ticket bookedTicket = new Ticket();
+        bookedTicket.setTicketID(501);
+        when(ticketService.bookTicket(1, 77, "1A")).thenReturn(bookedTicket);
+        when(ticketService.payTicket(501)).thenReturn(bookedTicket);
         Model successModel = new ExtendedModelMap();
-        assertEquals("order/success", controller.processPayment(1, "1A", "Иван", "+7000", null, successModel));
+        assertEquals("order/success", controller.processPayment(1, "1A", "Иван", "+7000", 7000, null, successModel));
         assertNotNull(successModel.asMap().get("orderId"));
+        assertEquals(7000, successModel.asMap().get("flightCost"));
         verify(flightService).updateFlight(eq(1), any(Flight.class));
+        verify(ticketService).bookTicket(1, 77, "1A");
+        verify(ticketService).payTicket(501);
 
         when(flightService.getFlightById(500)).thenReturn(Optional.empty());
         Model failureModel = new ExtendedModelMap();
-        assertEquals("order/failure", controller.processPayment(500, "9A", "Иван", "+7000", null, failureModel));
+        assertEquals("order/failure", controller.processPayment(500, "9A", "Иван", "+7000", 9000, null, failureModel));
         assertTrue(failureModel.asMap().get("error").toString().contains("Ошибка оплаты"));
+        assertEquals(9000, failureModel.asMap().get("flightCost"));
 
         Model successPageModel = new ExtendedModelMap();
         assertEquals("order/success", controller.successPage(successPageModel));
@@ -241,6 +257,30 @@ class MainControllerCoverageTest {
         Model failurePageModel = new ExtendedModelMap();
         assertEquals("order/failure", controller.failurePage(failurePageModel));
         assertEquals("Платеж не был выполнен", failurePageModel.asMap().get("error"));
+    }
+
+    @Test
+    void processPaymentCoversExistingClientAndSeatCleanupBranches() {
+        Flight messySeatsFlight = flight(10, moscow, pulkovo, aeroflot, 7200, " 1A, ,2B,,3C ", LocalDate.of(2026, 5, 3));
+        when(flightService.getFlightById(10)).thenReturn(Optional.of(messySeatsFlight));
+
+        Client existingClient = client(15, "Петр", "+7999");
+        when(clientService.findByNameAndPhoneNumber("Петр", "+7999")).thenReturn(Optional.of(existingClient));
+
+        Ticket bookedTicket = new Ticket();
+        bookedTicket.setTicketID(900);
+        when(ticketService.bookTicket(10, 15, "2B")).thenReturn(bookedTicket);
+        when(ticketService.payTicket(900)).thenReturn(bookedTicket);
+
+        Model model = new ExtendedModelMap();
+        assertEquals("order/success", controller.processPayment(10, "2B", "Петр", "+7999", 7200, 3, model));
+
+        verify(clientService, never()).createClient(any(Client.class));
+        verify(ticketService).bookTicket(10, 15, "2B");
+        verify(ticketService).payTicket(900);
+        assertEquals("1A,3C", messySeatsFlight.getAvailableSeats());
+        verify(flightService).updateFlight(10, messySeatsFlight);
+        assertEquals(7200, model.asMap().get("flightCost"));
     }
 
     @Test

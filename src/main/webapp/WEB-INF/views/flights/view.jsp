@@ -14,6 +14,9 @@
         <h2>Рейс #${flight.flightID}</h2>
         <a href="${pageContext.request.contextPath}/flights/${flight.flightID}/edit" class="btn btn-outline-warning">Редактировать</a>
     </div>
+    <c:if test="${not empty error}">
+        <div class="alert alert-danger">${error}</div>
+    </c:if>
     <div class="card mb-4">
         <div class="card-body">
             <h4>${flight.departureAirport.city} - ${flight.arrivalAirport.city}</h4>

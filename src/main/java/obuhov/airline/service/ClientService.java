@@ -38,6 +38,10 @@ public class ClientService {
         return clientRepository.findById(id);
     }
 
+    public Optional<Client> findByNameAndPhoneNumber(String name, String phoneNumber) {
+        return clientRepository.findByNameAndPhoneNumber(name, phoneNumber);
+    }
+
     public List<Client> searchClients(String name, String phone) {
         if (name == null || name.isEmpty()) name = "";
         if (phone == null || phone.isEmpty()) phone = "";
